@@ -537,90 +537,31 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Edge fade mask */}
-        <div
-          className="relative"
-          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)' }}
-        >
-          {/* Row 1 — slides left, tilted */}
-          {(() => {
-            const row1Tilts = [-6, 4, -5, 7, -3, 5, -7];
-            const row1Imgs = [
-              '/hero/slide1.jpg',
-              '/hero/slide2.jpg',
-              '/hero/slide3.jpg',
-              '/hero/slide4.png',
-              '/hero/slide5.jpg',
-              '/events/infinity.png',
-              '/events/hackathon.png',
-            ];
-            const row1 = [...row1Imgs, ...row1Imgs];
-            return (
-              <div className="overflow-hidden py-8 mb-2">
-                <div className="flex gap-6 marquee-left" style={{ width: 'max-content' }}>
-                  {row1.map((src, i) => {
-                    const deg = row1Tilts[i % row1Tilts.length];
-                    return (
-                      <div
-                        key={i}
-                        className="shrink-0 rounded-2xl overflow-hidden cursor-pointer group"
-                        style={{
-                          width: 340, height: 240,
-                          transform: `rotate(${deg}deg)`,
-                          transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-                          boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07)',
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'rotate(0deg) scale(1.06)')}
-                        onMouseLeave={e => (e.currentTarget.style.transform = `rotate(${deg}deg)`)}
-                      >
-                        <img src={src} alt="" className="w-full h-full object-cover" />
-                      </div>
-                    );
-                  })}
-                </div>
+        {/* Scattered images grid */}
+        <div className="relative px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            {/* Row 1 — 3 images */}
+            <div className="flex gap-5 mb-5 items-end">
+              <div className="rounded-2xl overflow-hidden flex-1" style={{ height: 260, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-2deg)' }}>
+                <img src="/hero/slide1.jpg" alt="" className="w-full h-full object-cover" />
               </div>
-            );
-          })()}
-
-          {/* Row 2 — slides right, tilted */}
-          {(() => {
-            const row2Tilts = [5, -4, 6, -7, 4, -5, 6];
-            const row2Imgs = [
-              '/events/knockout.png',
-              '/events/mathegraphy.png',
-              '/events/symmetria.jpeg',
-              '/hero/slide3.jpg',
-              '/hero/slide1.jpg',
-              '/events/hackathon.png',
-              '/hero/slide5.jpg',
-            ];
-            const row2 = [...row2Imgs, ...row2Imgs];
-            return (
-              <div className="overflow-hidden py-8">
-                <div className="flex gap-6 marquee-right" style={{ width: 'max-content' }}>
-                  {row2.map((src, i) => {
-                    const deg = row2Tilts[i % row2Tilts.length];
-                    return (
-                      <div
-                        key={i}
-                        className="shrink-0 rounded-2xl overflow-hidden cursor-pointer group"
-                        style={{
-                          width: 320, height: 220,
-                          transform: `rotate(${deg}deg)`,
-                          transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-                          boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07)',
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'rotate(0deg) scale(1.06)')}
-                        onMouseLeave={e => (e.currentTarget.style.transform = `rotate(${deg}deg)`)}
-                      >
-                        <img src={src} alt="" className="w-full h-full object-cover" />
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="rounded-2xl overflow-hidden" style={{ width: '42%', height: 320, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(1.5deg)' }}>
+                <img src="/hero/slide2.jpg" alt="" className="w-full h-full object-cover" />
               </div>
-            );
-          })()}
+              <div className="rounded-2xl overflow-hidden flex-1" style={{ height: 250, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
+                <img src="/hero/slide3.jpg" alt="" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            {/* Row 2 — 2 images */}
+            <div className="flex gap-5 items-start">
+              <div className="rounded-2xl overflow-hidden" style={{ width: '55%', height: 300, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(1deg)' }}>
+                <img src="/hero/slide4.png" alt="" className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-2xl overflow-hidden flex-1" style={{ height: 270, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1.5deg)' }}>
+                <img src="/hero/slide5.jpg" alt="" className="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
