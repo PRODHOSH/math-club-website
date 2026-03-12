@@ -22,6 +22,7 @@ export default function AdminEvents() {
   const [editing, setEditing] = useState<Event | null>(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
@@ -40,6 +41,7 @@ export default function AdminEvents() {
     setForm(p => ({ ...p, event_datetime: combined, date: displayDate || d }));
   };
   const openEdit = (r: Event) => {
+    setSaveError('');
     setEditing(r);
     setForm({ title: r.title, date: r.date, description: r.description, image: r.image, status: r.status, outcome: r.outcome, activities: r.activities, registrations: r.registrations, youtube_link: r.youtube_link, highlights: r.highlights, event_datetime: r.event_datetime || '' });
     if (r.event_datetime) {
@@ -51,9 +53,13 @@ export default function AdminEvents() {
   };
   const save = async () => {
     setSaving(true);
-    if (editing) await supabase.from('events').update(form).eq('id', editing.id);
-    else await supabase.from('events').insert(form);
-    setSaving(false); setOpen(false); load();
+    setSaveError('');
+    const { error } = editing
+      ? await supabase.from('events').update(form).eq('id', editing.id)
+      : await supabase.from('events').insert(form);
+    setSaving(false);
+    if (error) { setSaveError(error.message); return; }
+    setOpen(false); load();
   };
   const remove = async (id: number) => { await supabase.from('events').delete().eq('id', id); setDeleteId(null); load(); };
 
@@ -138,6 +144,7 @@ export default function AdminEvents() {
             </div>
 
             {/* Footer */}
+            {saveError && <p className="mx-6 mb-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-md px-3 py-2">{saveError}</p>}
             <div className="flex gap-3 px-6 py-4 border-t border-[#21262d]">
               <button onClick={() => setOpen(false)} className="flex-1 border border-[#30363d] rounded-md py-2.5 text-sm text-[#7d8590] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-colors">Cancel</button>
               <button onClick={save} disabled={saving} className="flex-1 bg-white text-black rounded-md py-2.5 text-sm font-semibold hover:bg-white/90 disabled:opacity-50 transition-colors">{saving ? 'Saving…' : 'Save Event'}</button>

@@ -221,61 +221,77 @@ const EventRegister: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#0d1117] border border-[#30363d] rounded-2xl p-8"
+          className="bg-white/[0.03] border border-white/10 rounded-3xl p-8 backdrop-blur-sm shadow-2xl"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <UserPlus size={28} className="text-green-400" />
-            <h1 className="text-2xl font-bold text-white">Register</h1>
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-1">
+            <div className="w-10 h-10 rounded-xl bg-green-500/15 flex items-center justify-center">
+              <UserPlus size={20} className="text-green-400" />
+            </div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">Register</h1>
           </div>
-          <p className="text-[#7d8590] text-sm mb-8">{event.title} &mdash; {event.date}</p>
+          <p className="text-white/40 text-sm mb-8 pl-[52px]">{event.title} &mdash; {event.date}</p>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm text-[#7d8590] mb-1.5">Full Name</label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Full Name */}
+            <div className="group">
+              <label className="block text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                Full Name
+              </label>
               <input
                 type="text"
                 required
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#161b22] border border-[#30363d] rounded-lg px-4 py-3 text-white placeholder-[#484f58] focus:outline-none focus:border-green-500 transition-colors"
+                suppressHydrationWarning
+                className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-green-500/60 focus:bg-white/[0.07] transition-all"
               />
             </div>
 
-            <div>
-              <label className="block text-sm text-[#7d8590] mb-1.5">Register Number</label>
+            {/* Register Number */}
+            <div className="group">
+              <label className="block text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                Register Number
+              </label>
               <input
                 type="text"
                 required
                 placeholder="23BCX0000"
                 value={regNo}
                 onChange={(e) => setRegNo(e.target.value)}
-                className="w-full bg-[#161b22] border border-[#30363d] rounded-lg px-4 py-3 text-white placeholder-[#484f58] font-mono focus:outline-none focus:border-green-500 transition-colors"
+                suppressHydrationWarning
+                className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm font-mono placeholder-white/20 focus:outline-none focus:border-green-500/60 focus:bg-white/[0.07] transition-all tracking-wider"
               />
             </div>
 
-            <div>
-              <label className="block text-sm text-[#7d8590] mb-1.5">Email Address</label>
+            {/* Email */}
+            <div className="group">
+              <label className="block text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+                Email Address
+              </label>
               <input
                 type="email"
                 required
                 placeholder="john@vit.ac.in"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#161b22] border border-[#30363d] rounded-lg px-4 py-3 text-white placeholder-[#484f58] focus:outline-none focus:border-green-500 transition-colors"
+                suppressHydrationWarning
+                className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-green-500/60 focus:bg-white/[0.07] transition-all"
               />
             </div>
 
             {error && (
-              <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                {error}
-              </p>
+              <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+                <span className="text-red-400 text-xs leading-relaxed">{error}</span>
+              </div>
             )}
 
+            <div className="pt-2">
             <button
               type="submit"
               disabled={submitting}
-              className="w-full flex items-center justify-center gap-2 py-3.5 bg-green-600 hover:bg-green-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-4 bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all text-sm tracking-wide shadow-lg shadow-green-900/30"
             >
               {submitting ? (
                 <>
@@ -289,6 +305,7 @@ const EventRegister: React.FC = () => {
                 </>
               )}
             </button>
+            </div>
           </form>
         </motion.div>
       </div>

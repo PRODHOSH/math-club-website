@@ -3,21 +3,28 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-// Dynamically import ThreeBackground to avoid SSR issues
 const ThreeBackground = dynamic(() => import('./ThreeBackground'), { ssr: false });
 
 interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
+const pageVariants = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit:    { opacity: 0 },
+} as const;
+
+const pageTransition = { duration: 0.22, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] };
+
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const pathname = usePathname();
 
-  // Don't render public layout for admin/core/recruitment pages
-  if (pathname?.startsWith('/admin') || pathname?.startsWith('/core') || pathname?.startsWith('/recruitment')) {
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/coordinator') || pathname?.startsWith('/recruitment')) {
     return <>{children}</>;
   }
 
@@ -27,9 +34,19 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         <ThreeBackground />
       </div>
       <Navbar />
-      <main className="relative z-10">
-        {children}
-      </main>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.main
+          key={pathname}
+          className="relative z-10"
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={pageTransition}
+        >
+          {children}
+        </motion.main>
+      </AnimatePresence>
       <Footer />
     </div>
   );

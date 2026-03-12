@@ -33,7 +33,7 @@ export default function AuthCallbackPage() {
         .eq('id', session.user.id)
         .single();
 
-      router.replace(profile?.role === 'admin' ? '/admin' : profile?.role === 'coordinator' ? '/core' : '/recruitment');
+      router.replace(profile?.role === 'admin' ? '/admin' : profile?.role === 'coordinator' ? '/coordinator' : '/recruitment');
     })();
   }, [router]);
 

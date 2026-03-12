@@ -14,7 +14,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = searchParams.get('next');
-  const isCorePage = nextPath === '/core';
+  const isCoordinatorPage = nextPath === '/coordinator';
 
   // If already logged in, redirect based on role
   useEffect(() => {
@@ -23,7 +23,7 @@ function LoginForm() {
       if (!user) return;
       const { data: profile } = await supabase
         .from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role === 'coordinator') window.location.href = '/core';
+      if (profile?.role === 'coordinator') window.location.href = '/coordinator';
       else if (profile?.role === 'admin') window.location.href = nextPath || '/admin';
     })();
   }, [router, nextPath]);
@@ -49,7 +49,7 @@ function LoginForm() {
         console.log('profile:', profile, 'error:', profileError);
 
         if (profile?.role === 'coordinator') {
-          window.location.href = '/core';
+          window.location.href = '/coordinator';
         } else if (profile?.role === 'admin') {
           window.location.href = nextPath || '/admin';
         } else {
@@ -95,7 +95,7 @@ function LoginForm() {
             {/* Logo + Title */}
             <div className="flex flex-col items-center mb-10">
               <img src="/math-club-logo.jpeg" alt="Math Club" className="w-16 h-16 rounded-2xl object-cover mb-4" />
-              <h1 className="text-2xl font-bold text-white tracking-tight">{isCorePage ? 'Core Portal' : 'Admin Portal'}</h1>
+              <h1 className="text-2xl font-bold text-white tracking-tight">{isCoordinatorPage ? 'Coordinator Portal' : 'Admin Portal'}</h1>
               <p className="text-sm text-white/35 mt-1">Mathematics Club · VIT Chennai</p>
             </div>
 

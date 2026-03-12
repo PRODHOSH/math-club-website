@@ -1,4 +1,7 @@
-import AdminEvents from '@/views/admin/AdminEvents';
+'use client';
+import dynamic from 'next/dynamic';
+
+const AdminEvents = dynamic(() => import('@/views/admin/AdminEvents'), { ssr: false });
 
 export default function AdminEventsPage() {
   return <AdminEvents />;

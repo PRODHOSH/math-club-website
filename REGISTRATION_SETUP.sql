@@ -28,6 +28,21 @@ ALTER TABLE registrations ADD COLUMN IF NOT EXISTS att_1_at timestamptz DEFAULT 
 ALTER TABLE registrations ADD COLUMN IF NOT EXISTS att_2_at timestamptz DEFAULT NULL;
 ALTER TABLE registrations ADD COLUMN IF NOT EXISTS att_3_at timestamptz DEFAULT NULL;
 
+-- Deduplicate before creating unique indexes (keeps earliest record per pair)
+DELETE FROM registrations
+WHERE id NOT IN (
+  SELECT DISTINCT ON (event_id, email)   id
+  FROM registrations
+  ORDER BY event_id, email, created_at ASC
+);
+
+DELETE FROM registrations
+WHERE id NOT IN (
+  SELECT DISTINCT ON (event_id, reg_no)  id
+  FROM registrations
+  ORDER BY event_id, reg_no, created_at ASC
+);
+
 -- Prevent duplicate registrations per event
 CREATE UNIQUE INDEX IF NOT EXISTS registrations_event_email_idx
   ON registrations (event_id, email);
@@ -42,6 +57,12 @@ CREATE UNIQUE INDEX IF NOT EXISTS registrations_event_regno_idx
 -- ============================================================
 
 ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies before recreating (safe to re-run)
+DROP POLICY IF EXISTS "Anyone can register"                  ON registrations;
+DROP POLICY IF EXISTS "Anyone can read registrations"        ON registrations;
+DROP POLICY IF EXISTS "Authenticated can update attendance"  ON registrations;
+DROP POLICY IF EXISTS "Authenticated can delete registrations" ON registrations;
 
 -- Public: insert own registration (self-register flow) or coordinator imports
 CREATE POLICY "Anyone can register"

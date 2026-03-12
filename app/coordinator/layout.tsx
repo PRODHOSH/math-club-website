@@ -4,60 +4,45 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { LayoutDashboard, BookOpen, Calendar, Users, UserCircle2, LogOut, ShieldCheck, Settings, Database } from 'lucide-react';
+import { Home, Settings, LogOut, QrCode } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 const navItems = [
-  { label: 'Dashboard',  path: '/admin',            icon: LayoutDashboard },
-  { label: 'Tutorials',  path: '/admin/tutorials',  icon: BookOpen },
-  { label: 'Events',     path: '/admin/events',     icon: Calendar },
-  { label: 'Database',   path: '/admin/database',   icon: Database },
-  { label: 'Council',    path: '/admin/council',    icon: UserCircle2 },
-  { label: 'Team',       path: '/admin/team',       icon: Users },
-  { label: 'Access',     path: '/admin/access',     icon: ShieldCheck },
-  { label: 'Settings',   path: '/admin/settings',   icon: Settings },
+  { label: 'Dashboard', path: '/coordinator', exact: true,  icon: Home },
+  { label: 'Settings',  path: '/coordinator/settings', exact: false, icon: Settings },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [checking, setChecking] = useState(true);
+export default function CoordinatorLayout({ children }: { children: React.ReactNode }) {
+  const [checking, setChecking]     = useState(true);
   const [authorized, setAuthorized] = useState(false);
-  const router = useRouter();
+  const router   = useRouter();
   const pathname = usePathname();
 
-  // Login page renders standalone — no auth check, no sidebar
-  const isLoginPage = pathname === '/admin/login';
-
   useEffect(() => {
-    if (isLoginPage) return; // skip auth check on login page
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/admin/login'); return; }
+      if (!user) { router.push('/admin/login?next=/coordinator'); return; }
       const { data: profile } = await supabase
         .from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role === 'admin') {
+      if (profile?.role === 'admin' || profile?.role === 'coordinator') {
         setAuthorized(true);
       } else {
         router.push('/admin/login');
       }
       setChecking(false);
     })();
-  }, [router, isLoginPage]);
+  }, [router]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/admin/login');
   };
 
-  // Render login page directly with no sidebar/spinner
-  if (isLoginPage) return <>{children}</>;
-
-  if (checking) {
-    return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#30363d] border-t-[#7d8590] rounded-full animate-spin" />
-      </div>
-    );
-  }
+  if (checking) return (
+    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[#30363d] border-t-[#7d8590] rounded-full animate-spin" />
+    </div>
+  );
 
   if (!authorized) return null;
 
@@ -67,23 +52,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="fixed inset-y-0 left-0 w-56 bg-[#161b22] border-r border-[#21262d] flex flex-col z-40">
         <div className="px-5 py-5">
           <div className="flex items-center gap-2.5">
-            <img
-              src="/math-club-logo.jpeg"
-              alt="Math Club"
-              className="w-8 h-8 rounded-lg object-cover border border-yellow-500/30 shrink-0"
-            />
+            <QrCode size={20} className="text-yellow-400" />
             <div>
               <p className="text-sm font-semibold leading-none text-white">Math Club</p>
-              <p className="text-[11px] text-[#7d8590] mt-0.5">Admin Panel</p>
+              <p className="text-[11px] text-[#7d8590] mt-0.5">Coordinator</p>
             </div>
           </div>
         </div>
 
         <nav className="flex-1 px-2 py-2 space-y-0.5 overflow-y-auto">
-          {navItems.map(({ label, path, icon: Icon }) => {
-            const isActive = path === '/admin'
-              ? pathname === '/admin' || pathname === '/admin/'
-              : pathname?.startsWith(path);
+          {navItems.map(({ label, path, icon: Icon, exact }) => {
+            const isActive = exact ? pathname === path : pathname?.startsWith(path);
             return (
               <Link
                 key={path}
@@ -119,7 +98,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             key={pathname}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.2, ease: 'easeOut' } }}
-            exit={{    opacity: 0,       transition: { duration: 0.12, ease: 'easeIn'  } }}
+            exit={{ opacity: 0, y: -8, transition: { duration: 0.15, ease: 'easeIn' } }}
+            className="p-8 min-h-screen"
           >
             {children}
           </motion.div>

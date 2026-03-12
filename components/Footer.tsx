@@ -97,8 +97,8 @@ const Footer: React.FC = () => {
             <div className="flex gap-5">
               <span className="hover:text-gray-400 transition-colors cursor-pointer">Privacy Policy</span>
               <span className="hover:text-gray-400 transition-colors cursor-pointer">Terms of Service</span>
-              <Link href="/admin/login"           className="hover:text-gray-400 transition-colors">Admin Login</Link>
-              <Link href="/admin/login?next=/core" className="hover:text-gray-400 transition-colors">Core Login</Link>
+              <Link href="/admin/login"                     className="hover:text-gray-400 transition-colors">Admin Login</Link>
+              <Link href="/admin/login?next=/coordinator" className="hover:text-gray-400 transition-colors">Coordinator Login</Link>
             </div>
           </div>
           <div className="text-center text-xs text-gray-500">
