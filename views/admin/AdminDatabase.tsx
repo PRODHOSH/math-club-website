@@ -305,9 +305,9 @@ export default function AdminDatabase() {
                           <td className="px-4 py-2.5 font-mono text-xs text-[#7d8590]">{r.reg_no}</td>
                           <td className="px-4 py-2.5 text-[#f0f6fc] text-xs">{r.name}</td>
                           <td className="px-4 py-2.5 text-[#7d8590] text-xs">{r.email}</td>
-                          {sessions >= 1 && <td className="px-3 py-2.5 text-center">{r.att_1_at ? <CheckCircle size={13} className="text-green-400 mx-auto" title={new Date(r.att_1_at).toLocaleString()} /> : <span className="text-[#30363d] text-xs">—</span>}</td>}
-                          {sessions >= 2 && <td className="px-3 py-2.5 text-center">{r.att_2_at ? <CheckCircle size={13} className="text-green-400 mx-auto" title={new Date(r.att_2_at).toLocaleString()} /> : <span className="text-[#30363d] text-xs">—</span>}</td>}
-                          {sessions >= 3 && <td className="px-3 py-2.5 text-center">{r.att_3_at ? <CheckCircle size={13} className="text-green-400 mx-auto" title={new Date(r.att_3_at).toLocaleString()} /> : <span className="text-[#30363d] text-xs">—</span>}</td>}
+                          {sessions >= 1 && <td className="px-3 py-2.5 text-center">{r.att_1_at ? <span title={new Date(r.att_1_at).toLocaleString()}><CheckCircle size={13} className="text-green-400 mx-auto" /></span> : <span className="text-[#30363d] text-xs">—</span>}</td>}
+                          {sessions >= 2 && <td className="px-3 py-2.5 text-center">{r.att_2_at ? <span title={new Date(r.att_2_at).toLocaleString()}><CheckCircle size={13} className="text-green-400 mx-auto" /></span> : <span className="text-[#30363d] text-xs">—</span>}</td>}
+                          {sessions >= 3 && <td className="px-3 py-2.5 text-center">{r.att_3_at ? <span title={new Date(r.att_3_at).toLocaleString()}><CheckCircle size={13} className="text-green-400 mx-auto" /></span> : <span className="text-[#30363d] text-xs">—</span>}</td>}
                           <td className="px-2 py-2.5">
                             <button onClick={() => { setDeleteId(r.id); setDeleteError(''); }} className="p-1 text-[#484f58] hover:text-red-400 transition-colors">
                               <Trash2 size={13} />
