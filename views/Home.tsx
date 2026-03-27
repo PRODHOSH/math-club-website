@@ -318,13 +318,13 @@ const Home: React.FC = () => {
               transition={{ delay: 0.75, duration: 0.6 }}
               className="flex items-center gap-4 mt-6"
             >
-              <Link href="/join">
+              <Link href="/recruitment">
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: '0 0 36px rgba(250,204,21,0.5)' }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 px-8 py-3.5 bg-yellow-400 text-black font-bold rounded-xl text-sm tracking-wide"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-400 text-black font-bold rounded-full text-sm tracking-wider hover:bg-yellow-300 transition-colors"
                 >
-                  Join The Club <ArrowRight size={15} />
+                  Join The Club <ArrowRight size={16} />
                 </motion.button>
               </Link>
               <Link href="/events/past" className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-white transition-colors duration-200">
@@ -587,7 +587,7 @@ const Home: React.FC = () => {
             {[
               {
                 question: "How do I join Mathematics Club?",
-                answer: "You can join Mathematics Club by clicking the 'Join Us' button in the navigation bar or visiting our join page. We welcome all VIT Chennai students who are passionate about mathematics and analytical thinking."
+                answer: "You can join Mathematics Club by clicking the 'Join Us' button in the navigation bar or visiting our recruitment page. We welcome all VIT Chennai students who are passionate about mathematics and analytical thinking."
               },
               {
                 question: "What are the different departments?",
