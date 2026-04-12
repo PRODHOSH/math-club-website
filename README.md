@@ -1,8 +1,5 @@
 # Mathematics Club
 
-Official website of the Mathematics Club at VIT Chennai.  
-A student-led initiative focused on mathematics, problem-solving, collaboration, and building analytical skills within the VIT Chennai community.
-
 ## Setup
 
 ```bash
